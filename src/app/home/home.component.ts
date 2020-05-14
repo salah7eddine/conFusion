@@ -3,6 +3,9 @@ import { DishService } from '../services/dish.service';
 import { PromotionService } from '../services/promotion.service';
 import { Dish } from '../shared/dish';
 import { Promotion } from '../shared/promotion';
+import { Leader } from '../shared/leader';
+import { LeaderService } from '../services/leader.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +15,19 @@ import { Promotion } from '../shared/promotion';
 export class HomeComponent implements OnInit {
   dish: Dish;
   promotion: Promotion;
+  leader: Leader;
 
   constructor(
     private dishService: DishService,
-    private promotionService: PromotionService
+    private promotionService: PromotionService,
+    private leaderService: LeaderService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.dish = this.dishService.getFeaturedDish();
     this.promotion = this.promotionService.getFeaturedPromotion();
+    let id = this.route.snapshot.params['id'];
+    this.leader = this.leaderService.getLeader(id);
   }
 }
