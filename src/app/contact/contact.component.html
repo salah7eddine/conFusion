@@ -35,21 +35,34 @@
   <div fxFlex fxFlexOffset="20px" class="form-size">
     <h3>Send us your Feedback</h3>
     <p>{{feedBackForm.value | json}} {{feedBackForm.status | json}}</p>
-    <form novalidate [formGroup]="feedBackForm" (ngSubmit)="onSubmit()">
+    <form novalidate [formGroup]="feedBackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName="firstName" placeholder="First Name" type="text" required>
+          <mat-error
+            *ngIf="feedBackForm.get('firstName').hasError('required') && feedBackForm.get('firstName').touched">
+            First Name is required
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="half-width">
           <input matInput formControlName="lastName" placeholder="Last Name" type="text" required>
+          <mat-error *ngIf="feedBackForm.get('lastName').hasError('required') && feedBackForm.get('lastName').touched">
+            Last Name is required
+          </mat-error>
         </mat-form-field>
       </p>
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName="phone" placeholder="Tel. Number" type="tel" required>
+          <mat-error *ngIf="feedBackForm.get('phone').hasError('required') && feedBackForm.get('phone').touched">
+            Tel. num is required
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="half-width">
           <input matInput formControlName="email" placeholder="Email" type="email" required>
+          <mat-error *ngIf="feedBackForm.get('email').hasError('required') && feedBackForm.get('email').touched">
+            Email is required
+          </mat-error>
         </mat-form-field>
       </p>
       <table class="form-size">
@@ -71,7 +84,8 @@
                     </textarea>
         </mat-form-field>
       </p>
-      <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+      <button type="submit" mat-button class="background-primary text-floral-white"
+        [disabled]="feedBackForm.invalid">Submit</button>
 
     </form>
   </div>
